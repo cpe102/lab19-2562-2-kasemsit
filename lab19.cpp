@@ -18,19 +18,24 @@ int main(){
 		cout << "\n[Turn " << turn_count << "] Enter your action: ";
 		cin >> player_action;
 		player_action = toupper(player_action);
-		if(player_action == 'E') break; 
+		if(player_action == 'E') break; // Exit program
 		
+		// Monster's choice
 		int temp = rand()%3;
 		if(temp <= 1) monster_action = 'A';
 		else if(temp == 2) monster_action = 'G';
 		
+		// Duel
 		if(player_action == 'G') hero.guard();
 		if(monster_action == 'G') mons.guard();
 		
-		if(player_action == 'H') p = hero.heal();
-		
+		if(player_action == 'H') p = hero.heal();  
+		cout << "Hero heal...\n";
+		// Kasemsit Note: On the first draw, if Hero heals and Monster attacks, then Hero will lose hp
+		// because hero is healed up to hpmax and then it is attacked. !!!!! bug or not?
 		if(player_action == 'A') p = hero.attack(mons); 
-		if(monster_action == 'A') m = mons.attack(hero); 
+		if(monster_action == 'A') m = mons.attack(hero);
+		cout << "Monster attack...\n"; 
 		
 		if(hero.isDead()){
 			drawScene(player_action,p,monster_action,m);

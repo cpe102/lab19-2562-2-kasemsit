@@ -36,7 +36,7 @@ void Unit::create(string t){
 	}else if(t == "Monster"){
 		type = "Monster";
 		name = "Monster";
-		hpmax = rand()%20+200;
+		hpmax = rand()%20+200; // (0,1,2,...,19 ) + 200
 		atk = rand()%5+25;
 		def = rand()%3+5;
 	}
@@ -66,9 +66,43 @@ void Unit::newTurn(){
 //Write Function Member attack(), beAttacked(), heal(), guard() and isDead() here
 //
 //
+int Unit::attack(Unit &u) {  // This unit attack u		
+	return u.beAttacked(atk);	
+}
 //
+int Unit::beAttacked(int oppatk) {
+	int dmg = oppatk - def;
+	if  (guard_on) dmg = dmg/3;
+	//if (hp < 0) hp = 0;
+	hp = hp - dmg;
+	return dmg;
+}
 //
+int Unit::heal() {
+	int i = rand()%21 + 10;    //   0,1,2,...,20	
+	int new_hp = hp + i;
+	if (new_hp > hpmax) {	
+		hp = hpmax;
+		return 0;   
+	}
+	else {		
+		hp = new_hp;
+		return i;
+	}
+	
+}
 //
+void Unit::guard() {	
+	guard_on = true;				
+		
+}
+//
+bool Unit::isDead() {
+	if (hp <= 0)
+		return true;
+	else
+		return false;	
+}
 //
 
 void drawScene(char p_action,int p,char m_action,int m){
